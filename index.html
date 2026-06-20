@@ -7,8 +7,12 @@
 
 <style>
 :root{
-    --scale:1;
-}
+
+    --ui-scale: clamp(
+        0.65rem,
+        1vw,
+        1rem
+    );
 
     --bg:#7fb5f5;
 
@@ -25,12 +29,6 @@
     box-sizing:border-box;
 }
 
-html,
-body{
-    width:100%;
-    overflow-x:hidden;
-}
-
 body{
     background:var(--bg);
     font-family:Georgia, serif;
@@ -38,14 +36,21 @@ body{
 }
 
 .app{
-    width:min(100%, calc(420px * var(--scale)));
+
+    width:100%;
+
+    max-width:820px;
+
     margin:0 auto;
 }
+
 /* ======================
    HEADER
 ====================== */
 
 .top{
+
+    height:calc(58px * var(--size));
 
     background:var(--blue-dark);
 
@@ -56,11 +61,11 @@ body{
     align-items:center;
 
     padding:
-        calc(14px * var(--scale))
-        calc(18px * var(--scale));
+        0
+        calc(18px * var(--size));
 
     border-bottom:
-        calc(4px * var(--scale))
+        calc(4px * var(--size))
         solid
         var(--blue-light);
 
@@ -73,20 +78,18 @@ body{
 }
 
 .date-num{
-    font-size:calc(2rem * var(--scale));
-    font-weight:bold;
+    font-size:calc(var(--ui-scale) * 2.2);
 }
-
 .date-day{
 
     margin-left:
-        calc(8px * var(--scale));
+        calc(8px * var(--size));
 
     margin-bottom:
-        calc(4px * var(--scale));
+        calc(4px * var(--size));
 
     font-size:
-        calc(.8rem * var(--scale));
+        calc(.85rem * var(--size));
 
     letter-spacing:.08em;
 }
@@ -94,13 +97,13 @@ body{
 .percent{
 
     font-size:
-        calc(1.1rem * var(--scale));
+        calc(1.2rem * var(--size));
 
     font-weight:700;
 }
 
 /* ======================
-   MAIN PANEL
+   PANEL
 ====================== */
 
 .panel{
@@ -109,19 +112,17 @@ body{
 
     display:flex;
 
-    align-items:stretch;
-
     background:#8dbef7;
 
     border-top:
-        calc(12px * var(--scale))
+        calc(14px * var(--size))
         solid
         var(--blue-light);
 
     overflow:hidden;
 
     min-height:
-        calc(520px * var(--scale));
+        calc(420px * var(--size));
 }
 
 /* Decorative Shape */
@@ -130,17 +131,17 @@ body{
 
     position:absolute;
 
-    top:
-        calc(-50px * var(--scale));
-
     right:
-        calc(-50px * var(--scale));
+        calc(-60px * var(--size));
+
+    top:
+        calc(-50px * var(--size));
 
     width:
-        calc(180px * var(--scale));
+        calc(220px * var(--size));
 
     height:
-        calc(180px * var(--scale));
+        calc(220px * var(--size));
 
     background:white;
 
@@ -150,34 +151,11 @@ body{
 }
 
 /* ======================
-   TITLE
+   SIDE LABEL
 ====================== */
 
 .side{
-
-    width:
-        calc(70px * var(--scale));
-
-    flex-shrink:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    writing-mode:vertical-rl;
-
-    transform:rotate(180deg);
-
-    font-size:
-        calc(3rem * var(--scale));
-
-    font-weight:bold;
-
-    letter-spacing:.15em;
-
-    color:rgba(255,255,255,.35);
-
-    user-select:none;
+    font-size:calc(var(--ui-scale) * 6.4);
 }
 
 /* ======================
@@ -189,14 +167,11 @@ body{
     flex:1;
 
     padding:
-        calc(18px * var(--scale));
+        calc(18px * var(--size));
 
     position:relative;
 
     z-index:2;
-
-    display:flex;
-    flex-direction:column;
 }
 
 /* ======================
@@ -210,20 +185,20 @@ body{
     align-items:center;
 
     min-height:
-        calc(48px * var(--scale));
+        calc(46px * var(--size));
 
     padding:
         0
-        calc(14px * var(--scale));
+        calc(14px * var(--size));
 
     margin-bottom:
-        calc(6px * var(--scale));
+        calc(5px * var(--size));
 
     background:
         rgba(6,47,86,.12);
 
     border-left:
-        calc(5px * var(--scale))
+        calc(6px * var(--size))
         solid
         transparent;
 
@@ -246,9 +221,7 @@ body{
 }
 
 .habit-name{
-
-    font-size:
-        calc(.95rem * var(--scale));
+    font-size:var(--ui-scale);
 }
 
 .right{
@@ -257,7 +230,7 @@ body{
     align-items:center;
 
     gap:
-        calc(10px * var(--scale));
+        calc(12px * var(--size));
 }
 
 /* ======================
@@ -267,15 +240,15 @@ body{
 .check{
 
     width:
-        calc(16px * var(--scale));
+        calc(16px * var(--size));
 
     height:
-        calc(16px * var(--scale));
+        calc(16px * var(--size));
 
     border-radius:50%;
 
     border:
-        calc(2px * var(--scale))
+        calc(2px * var(--size))
         solid
         var(--blue-dark);
 }
@@ -288,7 +261,7 @@ body{
 
     box-shadow:
         0 0
-        calc(10px * var(--scale))
+        calc(10px * var(--size))
         rgba(255,209,90,.6);
 }
 
@@ -307,7 +280,7 @@ body{
     cursor:pointer;
 
     font-size:
-        calc(1rem * var(--scale));
+        calc(1rem * var(--size));
 }
 
 .delete:hover{
@@ -321,13 +294,13 @@ body{
 .status-bar{
 
     margin-top:
-        calc(16px * var(--scale));
+        calc(14px * var(--size));
 
     display:flex;
     justify-content:space-between;
 
     font-size:
-        calc(.75rem * var(--scale));
+        calc(.8rem * var(--size));
 
     font-weight:700;
 
@@ -339,15 +312,13 @@ body{
 .progress{
 
     height:
-        calc(8px * var(--scale));
+        calc(8px * var(--size));
 
     background:
         rgba(6,47,86,.15);
 
     margin-top:
-        calc(6px * var(--scale));
-
-    overflow:hidden;
+        calc(6px * var(--size));
 }
 
 .fill{
@@ -368,17 +339,15 @@ body{
 .actions{
 
     margin-top:
-        calc(16px * var(--scale));
+        calc(16px * var(--size));
 
     display:flex;
 
     gap:
-        calc(8px * var(--scale));
+        calc(8px * var(--size));
 }
 
 button{
-
-    flex:1;
 
     border:none;
 
@@ -387,8 +356,8 @@ button{
     color:white;
 
     padding:
-        calc(8px * var(--scale))
-        calc(14px * var(--scale));
+        calc(8px * var(--size))
+        calc(14px * var(--size));
 
     cursor:pointer;
 
@@ -397,24 +366,13 @@ button{
     letter-spacing:.08em;
 
     font-size:
-        calc(.75rem * var(--scale));
+        calc(.75rem * var(--size));
 }
 
 button:hover{
 
     background:
         var(--blue-light);
-}
-
-/* ======================
-   SMALL EMBEDS
-====================== */
-
-@media (max-width:450px){
-
-    .app{
-        width:100%;
-    }
 }
 </style>
 </head>
