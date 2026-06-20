@@ -6,11 +6,10 @@
 <title>Persona 3 Daily Tracker</title>
 
 <style>
-
 :root{
 
-    /* CHANGE THIS TO RESIZE ENTIRE WIDGET */
-    --zoom:0.8;
+    /* MASTER SCALE */
+    --size:0.8;
 
     --bg:#7fb5f5;
 
@@ -39,12 +38,11 @@ body{
 
 .app{
 
-    width:820px;
+    width:calc(820px * var(--size));
 
-    margin:20px auto;
-
-    transform:scale(var(--zoom));
-    transform-origin:top center;
+    margin:
+        calc(20px * var(--size))
+        auto;
 }
 
 /* ======================
@@ -53,7 +51,7 @@ body{
 
 .top{
 
-    height:58px;
+    height:calc(58px * var(--size));
 
     background:var(--blue-dark);
 
@@ -63,9 +61,14 @@ body{
     justify-content:space-between;
     align-items:center;
 
-    padding:0 18px;
+    padding:
+        0
+        calc(18px * var(--size));
 
-    border-bottom:4px solid var(--blue-light);
+    border-bottom:
+        calc(4px * var(--size))
+        solid
+        var(--blue-light);
 
     text-transform:uppercase;
 }
@@ -76,20 +79,34 @@ body{
 }
 
 .date-num{
-    font-size:2rem;
+
+    font-size:
+        calc(2.2rem * var(--size));
+
     font-weight:900;
+
     line-height:1;
 }
 
 .date-day{
-    margin-left:8px;
-    margin-bottom:4px;
-    font-size:.85rem;
+
+    margin-left:
+        calc(8px * var(--size));
+
+    margin-bottom:
+        calc(4px * var(--size));
+
+    font-size:
+        calc(.85rem * var(--size));
+
     letter-spacing:.08em;
 }
 
 .percent{
-    font-size:1.2rem;
+
+    font-size:
+        calc(1.2rem * var(--size));
+
     font-weight:700;
 }
 
@@ -105,24 +122,34 @@ body{
 
     background:#8dbef7;
 
-    border-top:14px solid var(--blue-light);
+    border-top:
+        calc(14px * var(--size))
+        solid
+        var(--blue-light);
 
     overflow:hidden;
 
-    min-height:420px;
+    min-height:
+        calc(420px * var(--size));
 }
 
-/* Decorative shape */
+/* Decorative Shape */
 
 .shape{
 
     position:absolute;
 
-    right:-60px;
-    top:-50px;
+    right:
+        calc(-60px * var(--size));
 
-    width:220px;
-    height:220px;
+    top:
+        calc(-50px * var(--size));
+
+    width:
+        calc(220px * var(--size));
+
+    height:
+        calc(220px * var(--size));
 
     background:white;
 
@@ -138,9 +165,12 @@ body{
 .side{
 
     writing-mode:vertical-rl;
+
     transform:rotate(180deg);
 
-    font-size:5.8rem;
+    font-size:
+        calc(6.4rem * var(--size));
+
     font-weight:900;
 
     letter-spacing:-0.08em;
@@ -149,7 +179,9 @@ body{
 
     opacity:.28;
 
-    padding:12px 8px;
+    padding:
+        calc(12px * var(--size))
+        calc(8px * var(--size));
 
     line-height:.8;
 
@@ -164,9 +196,11 @@ body{
 
     flex:1;
 
-    padding:18px;
+    padding:
+        calc(18px * var(--size));
 
     position:relative;
+
     z-index:2;
 }
 
@@ -180,15 +214,23 @@ body{
     justify-content:space-between;
     align-items:center;
 
-    min-height:46px;
+    min-height:
+        calc(46px * var(--size));
 
-    padding:0 14px;
+    padding:
+        0
+        calc(14px * var(--size));
 
-    margin-bottom:5px;
+    margin-bottom:
+        calc(5px * var(--size));
 
-    background:rgba(6,47,86,.12);
+    background:
+        rgba(6,47,86,.12);
 
-    border-left:6px solid transparent;
+    border-left:
+        calc(6px * var(--size))
+        solid
+        transparent;
 
     transition:.15s;
 
@@ -197,20 +239,24 @@ body{
 
 .habit:hover{
 
-    border-left:6px solid var(--gold);
+    border-left-color:
+        var(--gold);
 
-    background:rgba(255,255,255,.45);
+    background:
+        rgba(255,255,255,.45);
 }
 
 .habit.done{
-
     color:var(--gold);
 }
 
 .habit-name{
 
-    font-size:1rem;
+    font-size:
+        calc(1rem * var(--size));
+
     font-weight:700;
+
     letter-spacing:.02em;
 }
 
@@ -218,21 +264,29 @@ body{
 
     display:flex;
     align-items:center;
-    gap:12px;
+
+    gap:
+        calc(12px * var(--size));
 }
 
 /* ======================
-   CHECK ICON
+   CHECK
 ====================== */
 
 .check{
 
-    width:16px;
-    height:16px;
+    width:
+        calc(16px * var(--size));
+
+    height:
+        calc(16px * var(--size));
 
     border-radius:50%;
 
-    border:2px solid var(--blue-dark);
+    border:
+        calc(2px * var(--size))
+        solid
+        var(--blue-dark);
 }
 
 .check.filled{
@@ -241,7 +295,10 @@ body{
 
     border-color:var(--gold);
 
-    box-shadow:0 0 10px rgba(255,209,90,.6);
+    box-shadow:
+        0 0
+        calc(10px * var(--size))
+        rgba(255,209,90,.6);
 }
 
 /* ======================
@@ -258,7 +315,8 @@ body{
 
     cursor:pointer;
 
-    font-size:1rem;
+    font-size:
+        calc(1rem * var(--size));
 }
 
 .delete:hover{
@@ -271,12 +329,15 @@ body{
 
 .status-bar{
 
-    margin-top:14px;
+    margin-top:
+        calc(14px * var(--size));
 
     display:flex;
     justify-content:space-between;
 
-    font-size:.8rem;
+    font-size:
+        calc(.8rem * var(--size));
+
     font-weight:700;
 
     letter-spacing:.1em;
@@ -286,18 +347,21 @@ body{
 
 .progress{
 
-    height:8px;
+    height:
+        calc(8px * var(--size));
 
-    background:rgba(6,47,86,.15);
+    background:
+        rgba(6,47,86,.15);
 
-    margin-top:6px;
+    margin-top:
+        calc(6px * var(--size));
 }
 
 .fill{
 
     height:100%;
 
-    width:0%;
+    width:0;
 
     background:var(--gold);
 
@@ -310,11 +374,13 @@ body{
 
 .actions{
 
-    margin-top:16px;
+    margin-top:
+        calc(16px * var(--size));
 
     display:flex;
 
-    gap:8px;
+    gap:
+        calc(8px * var(--size));
 }
 
 button{
@@ -325,7 +391,9 @@ button{
 
     color:white;
 
-    padding:8px 14px;
+    padding:
+        calc(8px * var(--size))
+        calc(14px * var(--size));
 
     cursor:pointer;
 
@@ -333,14 +401,15 @@ button{
 
     letter-spacing:.08em;
 
-    font-size:.75rem;
+    font-size:
+        calc(.75rem * var(--size));
 }
 
 button:hover{
 
-    background:var(--blue-light);
+    background:
+        var(--blue-light);
 }
-
 </style>
 </head>
 <body>
