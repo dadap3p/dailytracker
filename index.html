@@ -7,7 +7,8 @@
 
 <style>
 :root{
-    --scale:1;
+    --scale:0.75;
+}
 
     --bg:#7fb5f5;
 
@@ -37,15 +38,9 @@ body{
 }
 
 .app{
-
-    width:min(100%, calc(380px * var(--scale)));
-
-    margin:auto;
-
-    display:flex;
-    flex-direction:column;
+    width:min(100%, calc(420px * var(--scale)));
+    margin:0 auto;
 }
-
 /* ======================
    HEADER
 ====================== */
@@ -112,6 +107,10 @@ body{
 
     position:relative;
 
+    display:flex;
+
+    align-items:stretch;
+
     background:#8dbef7;
 
     border-top:
@@ -120,6 +119,9 @@ body{
         var(--blue-light);
 
     overflow:hidden;
+
+    min-height:
+        calc(520px * var(--scale));
 }
 
 /* Decorative Shape */
@@ -128,11 +130,11 @@ body{
 
     position:absolute;
 
-    right:
-        calc(-40px * var(--scale));
-
     top:
-        calc(-40px * var(--scale));
+        calc(-50px * var(--scale));
+
+    right:
+        calc(-50px * var(--scale));
 
     width:
         calc(180px * var(--scale));
@@ -153,23 +155,29 @@ body{
 
 .side{
 
-    position:relative;
-    z-index:2;
+    width:
+        calc(70px * var(--scale));
 
-    text-align:center;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    writing-mode:vertical-rl;
+
+    transform:rotate(180deg);
 
     font-size:
         calc(3rem * var(--scale));
 
     font-weight:bold;
 
-    letter-spacing:.18em;
+    letter-spacing:.15em;
 
-    opacity:.14;
+    color:rgba(255,255,255,.35);
 
-    padding:
-        calc(18px * var(--scale))
-        0;
+    user-select:none;
 }
 
 /* ======================
@@ -178,12 +186,17 @@ body{
 
 .content{
 
+    flex:1;
+
+    padding:
+        calc(18px * var(--scale));
+
     position:relative;
 
     z-index:2;
 
-    padding:
-        calc(18px * var(--scale));
+    display:flex;
+    flex-direction:column;
 }
 
 /* ======================
