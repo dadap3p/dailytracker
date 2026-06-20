@@ -38,14 +38,24 @@ body{
 
 /* TOP BAR */
 .top{
-    background:var(--panel);
-    color:#9fd0ff;
+    background:linear-gradient(
+        90deg,
+        var(--panel),
+        #0a4a78
+    );
 
-    padding:calc(10px * var(--scale));
-    font-size:calc(1.2rem * var(--scale));
+    color:#bfe3ff;
+
+    padding:calc(12px * var(--scale));
+
+    font-size:calc(1.3rem * var(--scale));
+    font-weight:600;
+    letter-spacing:0.05em;
 
     display:flex;
     justify-content:space-between;
+
+    border-bottom:2px solid rgba(255,255,255,0.15);
 }
 
 /* PANEL */
@@ -60,12 +70,19 @@ body{
     writing-mode:vertical-rl;
     transform:rotate(180deg);
 
-    font-size:calc(3.5rem * var(--scale));
-    opacity:0.2;
+    font-size:calc(6rem * var(--scale));
+    font-weight:900;
+    letter-spacing:0.2em;
 
-    padding:calc(10px * var(--scale));
+    opacity:0.35;
+
+    padding:calc(14px * var(--scale));
+
+    color:#0b2f4a;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.2);
 }
-
 /* CONTENT */
 .content{
     flex:1;
@@ -77,6 +94,9 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
+    font-size:calc(1.05rem * var(--scale));
+    font-weight:600;
 
     padding:calc(8px * var(--scale));
     margin-bottom:calc(6px * var(--scale));
@@ -91,6 +111,7 @@ body{
 
 .habit.done{
     color:var(--gold);
+    text-shadow:0 0 8px rgba(255,201,74,0.4);
 }
 
 /* CHECKBOX */
