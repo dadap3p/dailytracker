@@ -1,451 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Persona Daily Tracker</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>P3P Daily Tracker</title>
 
 <style>
 
 :root{
+    --scale:0.65;
+
     --bg:#7DB3F2;
-    --panel:#053B62;
+    --panel:#063B63;
     --panel2:#2C8BEB;
     --gold:#FFC94A;
-    --text:#082742;
-    --white:#ffffff;
+    --text:#06243A;
+    --white:#fff;
 }
 
+/* RESET */
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:Georgia, serif;
 }
 
 body{
-    font-family:Georgia, serif;
     background:var(--bg);
     color:var(--text);
-    min-height:100vh;
-    overflow:hidden;
 }
 
-.top-bar{
-    height:50px;
+/* WRAPPER */
+.app{
+    width:min(calc(820px * var(--scale)), 95%);
+    margin:20px auto;
+}
+
+/* TOP BAR */
+.top{
     background:var(--panel);
-    color:#8CC4FF;
+    color:#9fd0ff;
+
+    padding:calc(10px * var(--scale));
+    font-size:calc(1.4rem * var(--scale));
 
     display:flex;
-    align-items:center;
-    justify-content:flex-end;
-
-    padding-right:30px;
-
-    font-size:2rem;
-    letter-spacing:2px;
+    justify-content:space-between;
 }
 
-.bottom-bar{
-    position:fixed;
-    bottom:0;
-    left:0;
-
-    width:100%;
-    height:45px;
-
-    background:var(--panel2);
-}
-
-.container{
-    height:calc(100vh - 95px);
-
+/* MAIN PANEL */
+.panel{
     display:flex;
-    position:relative;
+    background:rgba(255,255,255,0.15);
+    border-top:10px solid var(--panel2);
 }
 
-.vertical{
+/* SIDE LABEL */
+.side{
     writing-mode:vertical-rl;
-
     transform:rotate(180deg);
 
-    font-size:8rem;
-    font-weight:bold;
+    font-size:calc(3.5rem * var(--scale));
+    opacity:0.2;
 
-    color:white;
-
-    opacity:.25;
-
-    padding:20px;
+    padding:calc(10px * var(--scale));
 }
 
+/* CONTENT */
 .content{
     flex:1;
+    padding:calc(16px * var(--scale));
+}
 
+/* HABITS */
+.habit{
     display:flex;
-
-    justify-content:center;
-
+    justify-content:space-between;
     align-items:center;
-}
 
-.panel{
-
-    width:min(850px,90%);
-
-    background:rgba(255,255,255,.15);
-
-    border-top:20px solid var(--panel2);
-
-    padding:30px;
-
-    position:relative;
-}
-
-.menu{
-    width:100%;
-}
-
-.menu-item{
-
-    font-size:2rem;
-
-    padding:12px 20px;
-
-    margin-bottom:8px;
-
-    transition:.15s;
+    padding:calc(8px * var(--scale));
+    margin-bottom:calc(6px * var(--scale));
 
     cursor:pointer;
+    transition:0.15s;
 }
 
-.menu-item:hover{
-    transform:translateX(8px);
+.habit:hover{
+    transform:translateX(6px);
 }
 
-.menu-item.selected{
-
-    background:var(--panel);
-
+.habit.done{
     color:var(--gold);
 }
 
-.menu-item.completed{
-
-    color:#0c6f26;
+.check{
+    width:calc(14px * var(--scale));
+    height:calc(14px * var(--scale));
+    border:2px solid var(--panel);
 }
 
-.description{
-
-    margin-top:35px;
-
-    font-size:1.3rem;
-
-    min-height:70px;
+.check.filled{
+    background:var(--gold);
+    border-color:var(--gold);
 }
 
-.stats{
-
-    margin-top:20px;
-
-    font-size:1.1rem;
-
-    color:var(--panel);
+/* PROGRESS */
+.progress{
+    height:6px;
+    background:#6fa8e6;
+    margin-top:10px;
 }
 
-.add-btn{
+.fill{
+    height:100%;
+    background:var(--gold);
+    width:0%;
+}
 
-    margin-top:20px;
+/* BUTTONS */
+.actions{
+    margin-top:10px;
+    display:flex;
+    gap:8px;
+}
 
-    background:var(--panel);
-
-    color:white;
-
+button{
     border:none;
-
-    padding:12px 18px;
-
     cursor:pointer;
+    padding:calc(8px * var(--scale));
+    background:var(--panel);
+    color:white;
+    font-size:calc(0.9rem * var(--scale));
 }
 
-.footer-help{
-
-    position:fixed;
-
-    right:25px;
-    bottom:55px;
-
-    font-size:1.2rem;
-}
-
-.footer-help span{
-    margin-left:15px;
-}
-
-@media(max-width:700px){
-
-.vertical{
-    font-size:4rem;
-}
-
-.menu-item{
-    font-size:1.3rem;
-}
-
-.description{
-    font-size:1rem;
-}
-
+button:hover{
+    background:#042a48;
 }
 
 </style>
 </head>
+
 <body>
 
-<div class="top-bar">
-□ What will you do today?
-</div>
+<div class="app">
 
-<div class="container">
+    <div class="top">
+        <div id="date"></div>
+        <div id="percent"></div>
+    </div>
 
-<div class="vertical">
-DAILY
-</div>
+    <div class="panel">
 
-<div class="content">
+        <div class="side">DAILY</div>
 
-<div class="panel">
+        <div class="content">
 
-<div id="menu" class="menu"></div>
+            <div id="list"></div>
 
-<div id="description" class="description">
-Select a habit and press Enter to mark it complete.
-</div>
+            <div class="progress">
+                <div class="fill" id="fill"></div>
+            </div>
 
-<div id="stats" class="stats"></div>
+            <div class="actions">
+                <button onclick="addHabit()">Add</button>
+                <button onclick="resetDay()">Reset</button>
+            </div>
 
-<button id="addHabit" class="add-btn">
-Add Habit
-</button>
+        </div>
 
-</div>
+    </div>
 
-</div>
-
-</div>
-
-<div class="bottom-bar"></div>
-
-<div class="footer-help">
-<span>A Confirm</span>
-<span>B Back</span>
 </div>
 
 <script>
 
-// ===== DAILY STORAGE =====
+/* ======================
+   DATE SYSTEM (REAL DAILY)
+====================== */
 
-const today =
-new Date().toISOString().split("T")[0];
+const today = new Date().toISOString().split("T")[0];
 
-const descriptions = {
-Exercise:"Build physical strength and stamina.",
-Read:"Expand knowledge and improve focus.",
-Study:"Invest in long-term growth.",
-Meditate:"Improve clarity and mindfulness.",
-Journal:"Reflect on your day."
-};
+const monthNames = [
+"Jan","Feb","Mar","Apr","May","Jun",
+"Jul","Aug","Sep","Oct","Nov","Dec"
+];
 
-let saveData =
-JSON.parse(
-localStorage.getItem("p3pDailyTracker")
-) || {};
+document.getElementById("date").textContent =
+`${monthNames[new Date().getMonth()]} ${new Date().getDate()}`;
 
-if(!saveData[today]){
+/* ======================
+   STORAGE
+====================== */
 
-saveData[today]={
-habits:[
-"Exercise",
-"Read",
-"Study",
-"Meditate"
-],
-completed:{}
-};
+let data =
+JSON.parse(localStorage.getItem("p3p_daily")) || {};
 
-save();
-
+if(!data[today]){
+    data[today] = {
+        habits:["Exercise","Read","Study"],
+        done:{}
+    };
 }
 
-let tracker =
-saveData[today];
+let day = data[today];
+
+/* ======================
+   SAVE
+====================== */
 
 function save(){
-
-localStorage.setItem(
-"p3pDailyTracker",
-JSON.stringify(saveData)
-);
-
+    localStorage.setItem("p3p_daily", JSON.stringify(data));
 }
 
-let selected = 0;
-
-const menu =
-document.getElementById("menu");
-
-const description =
-document.getElementById("description");
-
-const stats =
-document.getElementById("stats");
+/* ======================
+   RENDER
+====================== */
 
 function render(){
 
-menu.innerHTML="";
+    const list = document.getElementById("list");
+    list.innerHTML = "";
 
-tracker.habits.forEach((habit,index)=>{
+    let completed = 0;
 
-const item =
-document.createElement("div");
+    day.habits.forEach((h,i)=>{
 
-item.className =
-"menu-item";
+        const isDone = day.done[h];
 
-if(index===selected){
-item.classList.add("selected");
-}
+        if(isDone) completed++;
 
-if(
-tracker.completed[habit]
-){
-item.classList.add("completed");
-item.innerHTML =
-"✓ " + habit;
-}else{
-item.textContent =
-habit;
-}
+        const div = document.createElement("div");
+        div.className = "habit" + (isDone ? " done" : "");
 
-item.onclick=()=>{
+        div.innerHTML = `
+            <div>${isDone ? "✓ " : ""}${h}</div>
+            <div class="check ${isDone ? "filled" : ""}"></div>
+        `;
 
-selected=index;
-toggleHabit();
-render();
+        div.onclick = ()=>{
 
-};
+            day.done[h] = !day.done[h];
+            save();
+            render();
 
-menu.appendChild(item);
+        };
 
-});
+        list.appendChild(div);
 
-const currentHabit =
-tracker.habits[selected];
+    });
 
-description.textContent =
-descriptions[currentHabit]
-||
-"Complete this task today.";
+    const percent =
+    Math.round((completed / day.habits.length) * 100) || 0;
 
-const completedCount =
-Object.values(
-tracker.completed
-).filter(Boolean).length;
+    document.getElementById("percent").textContent =
+    `${percent}%`;
 
-const percent =
-Math.round(
-(completedCount /
-tracker.habits.length)
-*100
-);
-
-stats.innerHTML = `
-TODAY<br>
-${completedCount} / ${tracker.habits.length}
-Completed<br>
-${percent}%
-`;
-
-save();
+    document.getElementById("fill").style.width =
+    percent + "%";
 
 }
 
-function toggleHabit(){
+/* ======================
+   ADD HABIT
+====================== */
 
-const habit =
-tracker.habits[selected];
+function addHabit(){
 
-tracker.completed[habit] =
-!tracker.completed[habit];
+    const name = prompt("New Habit:");
 
-}
+    if(!name) return;
 
-document.addEventListener(
-"keydown",
-e=>{
-
-if(
-e.key==="ArrowDown"
-){
-
-selected++;
-
-if(
-selected>=tracker.habits.length
-){
-selected=0;
-}
-
-render();
+    day.habits.push(name);
+    save();
+    render();
 
 }
 
-if(
-e.key==="ArrowUp"
-){
+/* ======================
+   RESET DAY
+====================== */
 
-selected--;
+function resetDay(){
 
-if(
-selected<0
-){
-selected=
-tracker.habits.length-1;
-}
-
-render();
+    day.done = {};
+    save();
+    render();
 
 }
 
-if(
-e.key==="Enter"
-){
-
-toggleHabit();
-render();
-
-}
-
-}
-);
-
-document
-.getElementById("addHabit")
-.onclick=()=>{
-
-const name =
-prompt(
-"New Habit:"
-);
-
-if(!name) return;
-
-tracker.habits.push(name);
-
-save();
-render();
-
-};
+/* ======================
+   INIT
+====================== */
 
 render();
 
