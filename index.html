@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>P3P Daily Tracker</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
 
 :root{
@@ -15,7 +17,6 @@
     --panel2:#2C8BEB;
     --gold:#FFC94A;
     --text:#06243A;
-    --white:#fff;
 }
 
 /* RESET */
@@ -23,7 +24,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Georgia, serif;
+    font-family:Inter, "Segoe UI Variable", sans-serif;
 }
 
 body{
@@ -31,7 +32,7 @@ body{
     color:var(--text);
 }
 
-/* WRAPPER */
+/* APP WRAPPER */
 .app{
     width:min(calc(820px * var(--scale)), 95%);
     margin:20px auto;
@@ -43,13 +44,13 @@ body{
     color:#9fd0ff;
 
     padding:calc(10px * var(--scale));
-    font-size:calc(1.4rem * var(--scale));
+    font-size:calc(1.2rem * var(--scale));
 
     display:flex;
     justify-content:space-between;
 }
 
-/* MAIN PANEL */
+/* PANEL */
 .panel{
     display:flex;
     background:rgba(255,255,255,0.15);
@@ -73,7 +74,7 @@ body{
     padding:calc(16px * var(--scale));
 }
 
-/* HABITS */
+/* HABIT ROW */
 .habit{
     display:flex;
     justify-content:space-between;
@@ -94,6 +95,7 @@ body{
     color:var(--gold);
 }
 
+/* CHECKBOX */
 .check{
     width:calc(14px * var(--scale));
     height:calc(14px * var(--scale));
@@ -103,6 +105,22 @@ body{
 .check.filled{
     background:var(--gold);
     border-color:var(--gold);
+}
+
+/* DELETE BUTTON */
+.delete{
+    margin-left:10px;
+    background:transparent;
+    border:none;
+    color:#ff4d6d;
+    font-size:calc(1rem * var(--scale));
+    cursor:pointer;
+    opacity:0.6;
+}
+
+.delete:hover{
+    opacity:1;
+    transform:scale(1.1);
 }
 
 /* PROGRESS */
@@ -176,10 +194,11 @@ button:hover{
 <script>
 
 /* ======================
-   DATE SYSTEM (REAL DAILY)
+   DATE SYSTEM
 ====================== */
 
-const today = new Date().toISOString().split("T")[0];
+const today =
+new Date().toISOString().split("T")[0];
 
 const monthNames = [
 "Jan","Feb","Mar","Apr","May","Jun",
@@ -214,6 +233,22 @@ function save(){
 }
 
 /* ======================
+   DELETE HABIT
+====================== */
+
+function deleteHabit(name){
+
+    delete day.done[name];
+
+    day.habits =
+    day.habits.filter(h => h !== name);
+
+    save();
+    render();
+
+}
+
+/* ======================
    RENDER
 ====================== */
 
@@ -235,15 +270,28 @@ function render(){
 
         div.innerHTML = `
             <div>${isDone ? "✓ " : ""}${h}</div>
-            <div class="check ${isDone ? "filled" : ""}"></div>
+
+            <div style="display:flex;align-items:center;gap:8px;">
+                <div class="check ${isDone ? "filled" : ""}"></div>
+                <button class="delete">✕</button>
+            </div>
         `;
 
-        div.onclick = ()=>{
+        /* TOGGLE */
+        div.onclick = (e)=>{
+
+            if(e.target.classList.contains("delete")) return;
 
             day.done[h] = !day.done[h];
             save();
             render();
 
+        };
+
+        /* DELETE */
+        div.querySelector(".delete").onclick = (e)=>{
+            e.stopPropagation();
+            deleteHabit(h);
         };
 
         list.appendChild(div);
@@ -271,6 +319,8 @@ function addHabit(){
 
     if(!name) return;
 
+    if(day.habits.includes(name)) return;
+
     day.habits.push(name);
     save();
     render();
@@ -282,11 +332,9 @@ function addHabit(){
 ====================== */
 
 function resetDay(){
-
     day.done = {};
     save();
     render();
-
 }
 
 /* ======================
