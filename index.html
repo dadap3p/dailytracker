@@ -1,200 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>P3P Daily Tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Persona 3 Daily Tracker</title>
 
 <style>
 
 :root{
-    --scale:0.65;
 
-    --bg:#7DB3F2;
-    --panel:#063B63;
-    --panel2:#2C8BEB;
-    --gold:#FFC94A;
-    --text:#06243A;
+    /* CHANGE THIS TO RESIZE ENTIRE WIDGET */
+    --zoom:0.8;
+
+    --bg:#7fb5f5;
+
+    --blue-dark:#062f56;
+    --blue:#0f4d89;
+    --blue-light:#2f8cff;
+
+    --white:#f4f9ff;
+
+    --gold:#ffd15a;
+
+    --shadow:rgba(0,0,0,.15);
 }
 
-/* RESET */
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Georgia, serif; /* ← reverted font */
 }
 
 body{
     background:var(--bg);
-    color:var(--text);
+    font-family:Georgia, serif;
+    color:var(--blue-dark);
 }
 
-/* APP WRAPPER */
 .app{
-    width:min(calc(820px * var(--scale)), 95%);
+
+    width:820px;
+
     margin:20px auto;
+
+    transform:scale(var(--zoom));
+    transform-origin:top center;
 }
 
-/* TOP BAR */
+/* ======================
+   HEADER
+====================== */
+
 .top{
-    background:linear-gradient(
-        90deg,
-        var(--panel),
-        #0a4a78
-    );
 
-    color:#bfe3ff;
+    height:58px;
 
-    padding:calc(12px * var(--scale));
+    background:var(--blue-dark);
 
-    font-size:calc(1.3rem * var(--scale));
-    font-weight:600;
-    letter-spacing:0.05em;
+    color:white;
 
-    display:flex;
-    justify-content:space-between;
-
-    border-bottom:2px solid rgba(255,255,255,0.15);
-}
-
-/* PANEL */
-.panel{
-    display:flex;
-    background:rgba(255,255,255,0.15);
-    border-top:10px solid var(--panel2);
-}
-
-/* SIDE LABEL */
-.side{
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-
-    font-size:calc(4.2rem * var(--scale));
-    font-weight:900;
-    letter-spacing:0.35em;
-
-    opacity:0.22;
-
-    padding:calc(12px * var(--scale));
-
-    color:#08324f;
-
-    text-transform:uppercase;
-
-    user-select:none;
-}
-/* CONTENT */
-.content{
-    flex:1;
-    padding:calc(16px * var(--scale));
-}
-
-/* HABIT ROW */
-.habit{
     display:flex;
     justify-content:space-between;
     align-items:center;
 
-    font-size:calc(1.05rem * var(--scale));
-    font-weight:600;
+    padding:0 18px;
 
-    padding:calc(8px * var(--scale));
-    margin-bottom:calc(6px * var(--scale));
+    border-bottom:4px solid var(--blue-light);
+
+    text-transform:uppercase;
+}
+
+.date-wrap{
+    display:flex;
+    align-items:flex-end;
+}
+
+.date-num{
+    font-size:2rem;
+    font-weight:900;
+    line-height:1;
+}
+
+.date-day{
+    margin-left:8px;
+    margin-bottom:4px;
+    font-size:.85rem;
+    letter-spacing:.08em;
+}
+
+.percent{
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+/* ======================
+   PANEL
+====================== */
+
+.panel{
+
+    position:relative;
+
+    display:flex;
+
+    background:#8dbef7;
+
+    border-top:14px solid var(--blue-light);
+
+    overflow:hidden;
+
+    min-height:420px;
+}
+
+/* Decorative shape */
+
+.shape{
+
+    position:absolute;
+
+    right:-60px;
+    top:-50px;
+
+    width:220px;
+    height:220px;
+
+    background:white;
+
+    opacity:.12;
+
+    transform:rotate(35deg);
+}
+
+/* ======================
+   SIDE LABEL
+====================== */
+
+.side{
+
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+
+    font-size:5.8rem;
+    font-weight:900;
+
+    letter-spacing:-0.08em;
+
+    color:white;
+
+    opacity:.28;
+
+    padding:12px 8px;
+
+    line-height:.8;
+
+    user-select:none;
+}
+
+/* ======================
+   CONTENT
+====================== */
+
+.content{
+
+    flex:1;
+
+    padding:18px;
+
+    position:relative;
+    z-index:2;
+}
+
+/* ======================
+   HABITS
+====================== */
+
+.habit{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    min-height:46px;
+
+    padding:0 14px;
+
+    margin-bottom:5px;
+
+    background:rgba(6,47,86,.12);
+
+    border-left:6px solid transparent;
+
+    transition:.15s;
 
     cursor:pointer;
-    transition:0.15s;
 }
 
 .habit:hover{
-    transform:translateX(6px);
+
+    border-left:6px solid var(--gold);
+
+    background:rgba(255,255,255,.45);
 }
 
 .habit.done{
+
     color:var(--gold);
-    text-shadow:0 0 8px rgba(255,201,74,0.4);
 }
 
-/* CHECKBOX */
+.habit-name{
+
+    font-size:1rem;
+    font-weight:700;
+    letter-spacing:.02em;
+}
+
+.right{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* ======================
+   CHECK ICON
+====================== */
+
 .check{
-    width:calc(14px * var(--scale));
-    height:calc(14px * var(--scale));
-    border:2px solid var(--panel);
+
+    width:16px;
+    height:16px;
+
+    border-radius:50%;
+
+    border:2px solid var(--blue-dark);
 }
 
 .check.filled{
+
     background:var(--gold);
+
     border-color:var(--gold);
+
+    box-shadow:0 0 10px rgba(255,209,90,.6);
 }
 
-/* DELETE BUTTON */
+/* ======================
+   DELETE
+====================== */
+
 .delete{
-    margin-left:10px;
-    background:transparent;
+
     border:none;
-    color:#ff4d6d;
-    font-size:calc(1rem * var(--scale));
+
+    background:none;
+
+    color:#d94f67;
+
     cursor:pointer;
-    opacity:0.6;
+
+    font-size:1rem;
 }
 
 .delete:hover{
-    opacity:1;
-    transform:scale(1.1);
+    transform:scale(1.15);
 }
 
-/* PROGRESS */
+/* ======================
+   STATUS
+====================== */
+
+.status-bar{
+
+    margin-top:14px;
+
+    display:flex;
+    justify-content:space-between;
+
+    font-size:.8rem;
+    font-weight:700;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
+}
+
 .progress{
-    height:6px;
-    background:#6fa8e6;
-    margin-top:10px;
+
+    height:8px;
+
+    background:rgba(6,47,86,.15);
+
+    margin-top:6px;
 }
 
 .fill{
+
     height:100%;
-    background:var(--gold);
+
     width:0%;
+
+    background:var(--gold);
+
+    transition:.2s;
 }
 
-/* BUTTONS */
+/* ======================
+   BUTTONS
+====================== */
+
 .actions{
-    margin-top:10px;
+
+    margin-top:16px;
+
     display:flex;
+
     gap:8px;
 }
 
 button{
+
     border:none;
-    cursor:pointer;
-    padding:calc(8px * var(--scale));
-    background:var(--panel);
+
+    background:var(--blue-dark);
+
     color:white;
-    font-size:calc(0.9rem * var(--scale));
+
+    padding:8px 14px;
+
+    cursor:pointer;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+    font-size:.75rem;
 }
 
 button:hover{
-    background:#042a48;
+
+    background:var(--blue-light);
 }
 
 </style>
 </head>
-
 <body>
 
 <div class="app">
 
     <div class="top">
-        <div id="date"></div>
-        <div id="percent"></div>
+
+        <div class="date-wrap">
+            <div class="date-num" id="dateNum"></div>
+            <div class="date-day" id="dateDay"></div>
+        </div>
+
+        <div class="percent" id="percent">0%</div>
+
     </div>
 
     <div class="panel">
+
+        <div class="shape"></div>
 
         <div class="side">DAILY</div>
 
         <div class="content">
 
             <div id="list"></div>
+
+            <div class="status-bar">
+                <span>Completion Rate</span>
+                <span id="completionText">0%</span>
+            </div>
 
             <div class="progress">
                 <div class="fill" id="fill"></div>
@@ -214,46 +391,57 @@ button:hover{
 <script>
 
 /* ======================
-   DATE SYSTEM
+   DATE
 ====================== */
 
-const today =
-new Date().toISOString().split("T")[0];
+const now = new Date();
 
-const monthNames = [
-"Jan","Feb","Mar","Apr","May","Jun",
-"Jul","Aug","Sep","Oct","Nov","Dec"
+const days = [
+"SUN","MON","TUE","WED","THU","FRI","SAT"
 ];
 
-document.getElementById("date").textContent =
-`${monthNames[new Date().getMonth()]} ${new Date().getDate()}`;
+document.getElementById("dateNum").textContent =
+`${now.getMonth()+1}/${now.getDate()}`;
+
+document.getElementById("dateDay").textContent =
+days[now.getDay()];
 
 /* ======================
    STORAGE
 ====================== */
 
+const today =
+new Date().toISOString().split("T")[0];
+
 let data =
-JSON.parse(localStorage.getItem("p3p_daily")) || {};
+JSON.parse(localStorage.getItem("persona_tracker")) || {};
 
 if(!data[today]){
-    data[today] = {
-        habits:["Exercise","Read","Study"],
+
+    data[today]={
+
+        habits:[
+            "Exercise",
+            "Read",
+            "Study"
+        ],
+
         done:{}
     };
 }
 
 let day = data[today];
 
-/* ======================
-   SAVE
-====================== */
-
 function save(){
-    localStorage.setItem("p3p_daily", JSON.stringify(data));
+
+    localStorage.setItem(
+        "persona_tracker",
+        JSON.stringify(data)
+    );
 }
 
 /* ======================
-   DELETE HABIT
+   DELETE
 ====================== */
 
 function deleteHabit(name){
@@ -261,11 +449,12 @@ function deleteHabit(name){
     delete day.done[name];
 
     day.habits =
-    day.habits.filter(h => h !== name);
+    day.habits.filter(
+        h => h !== name
+    );
 
     save();
     render();
-
 }
 
 /* ======================
@@ -274,57 +463,77 @@ function deleteHabit(name){
 
 function render(){
 
-    const list = document.getElementById("list");
-    list.innerHTML = "";
+    const list =
+    document.getElementById("list");
+
+    list.innerHTML="";
 
     let completed = 0;
 
-    day.habits.forEach((h,i)=>{
+    day.habits.forEach(h=>{
 
-        const isDone = day.done[h];
+        const done = day.done[h];
 
-        if(isDone) completed++;
+        if(done) completed++;
 
-        const div = document.createElement("div");
-        div.className = "habit" + (isDone ? " done" : "");
+        const div =
+        document.createElement("div");
+
+        div.className =
+        "habit" + (done ? " done" : "");
 
         div.innerHTML = `
-            <div>${isDone ? "✓ " : ""}${h}</div>
+        <div class="habit-name">
+            ${h}
+        </div>
 
-            <div style="display:flex;align-items:center;gap:8px;">
-                <div class="check ${isDone ? "filled" : ""}"></div>
-                <button class="delete">✕</button>
-            </div>
+        <div class="right">
+
+            <div class="check ${done ? "filled" : ""}"></div>
+
+            <button class="delete">
+                ✕
+            </button>
+
+        </div>
         `;
 
-        div.onclick = (e)=>{
+        div.onclick=(e)=>{
 
-            if(e.target.classList.contains("delete")) return;
+            if(
+                e.target.classList.contains("delete")
+            ) return;
 
-            day.done[h] = !day.done[h];
+            day.done[h] = !done;
+
             save();
             render();
-
         };
 
-        div.querySelector(".delete").onclick = (e)=>{
+        div.querySelector(".delete")
+        .onclick=(e)=>{
+
             e.stopPropagation();
+
             deleteHabit(h);
         };
 
         list.appendChild(div);
-
     });
 
     const percent =
-    Math.round((completed / day.habits.length) * 100) || 0;
+    Math.round(
+        (completed / day.habits.length) * 100
+    ) || 0;
 
-    document.getElementById("percent").textContent =
-    `${percent}%`;
+    document.getElementById("percent")
+    .textContent = percent + "%";
 
-    document.getElementById("fill").style.width =
-    percent + "%";
+    document.getElementById("completionText")
+    .textContent = percent + "%";
 
+    document.getElementById("fill")
+    .style.width = percent + "%";
 }
 
 /* ======================
@@ -333,31 +542,32 @@ function render(){
 
 function addHabit(){
 
-    const name = prompt("New Habit:");
+    const habit =
+    prompt("New Habit");
 
-    if(!name) return;
+    if(!habit) return;
 
-    if(day.habits.includes(name)) return;
+    if(
+        day.habits.includes(habit)
+    ) return;
 
-    day.habits.push(name);
+    day.habits.push(habit);
+
     save();
     render();
-
 }
 
 /* ======================
-   RESET DAY
+   RESET
 ====================== */
 
 function resetDay(){
+
     day.done = {};
+
     save();
     render();
 }
-
-/* ======================
-   INIT
-====================== */
 
 render();
 
